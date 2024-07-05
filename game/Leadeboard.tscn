@@ -1,0 +1,92 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm6wl57g81gcp"]
+
+[ext_resource type="Texture2D" uid="uid://gar1yvibwvta" path="res://graphics/scenes/bg.png" id="1_7kso7"]
+
+[sub_resource type="GDScript" id="GDScript_ojqpg"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	self.set_text(str(Game.text))
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="GDScript" id="GDScript_qm0l8"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	get_tree().change_scene_to_file(\"res://game/MainMenu.tscn\")
+"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(1.00699, 1.09831)
+texture = ExtResource("1_7kso7")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(400, 550)
+layout_mode = 0
+offset_left = 376.0
+offset_top = 49.0
+offset_right = 776.0
+offset_bottom = 599.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Leaderboard" type="Label" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "Leaderboard"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(384, 465)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/ScrollContainer"]
+layout_mode = 2
+script = SubResource("GDScript_ojqpg")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 560.0
+offset_right = 760.0
+offset_bottom = 591.0
+text = "Main menu"
+script = SubResource("GDScript_qm0l8")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

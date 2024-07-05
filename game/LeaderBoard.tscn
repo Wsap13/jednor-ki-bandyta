@@ -1,0 +1,100 @@
+[gd_scene load_steps=7 format=3 uid="uid://btl160v8cbavn"]
+
+[ext_resource type="Shader" path="res://game/Blur.gdshader" id="1_rjl73"]
+[ext_resource type="Texture2D" uid="uid://gar1yvibwvta" path="res://graphics/scenes/bg.png" id="2_1kgpf"]
+[ext_resource type="Script" path="res://game/Button.gd" id="2_o5b3m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g06fq"]
+shader = ExtResource("1_rjl73")
+shader_parameter/blur = 0.654
+shader_parameter/brightness = 0.2
+
+[sub_resource type="GDScript" id="GDScript_5f6vu"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"Your place: \" + str(Game.position)
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_nrgtf"]
+script/source = "extends Label
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	self.set_text(str(Game.text2))
+
+func _process(delta):
+	pass
+"
+
+[node name="LeaderBoard" type="ColorRect"]
+material = SubResource("ShaderMaterial_g06fq")
+custom_minimum_size = Vector2(123, 123)
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(1.00699, 1.0983)
+texture = ExtResource("2_1kgpf")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(400, 520)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Leaderboard" type="Label" parent="CenterContainer/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 20
+text = "Leaderboard"
+
+[node name="Position" type="Label" parent="CenterContainer/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Your place: "
+script = SubResource("GDScript_5f6vu")
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 27
+script = SubResource("GDScript_nrgtf")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Main menu"
+script = ExtResource("2_o5b3m")
+
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/Button" to="CenterContainer/PanelContainer/MarginContainer/Button" method="_on_pressed"]

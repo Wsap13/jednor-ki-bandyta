@@ -1,0 +1,147 @@
+[gd_scene load_steps=7 format=3 uid="uid://fge1a4hkrtuw"]
+
+[ext_resource type="Shader" path="res://game/Blur.gdshader" id="1_pxn45"]
+[ext_resource type="Script" path="res://game/Pause.gd" id="2_ows1f"]
+[ext_resource type="PackedScene" uid="uid://bmk5qii2hrvrv" path="res://game/resolution.tscn" id="3_5umao"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ukqf"]
+shader = ExtResource("1_pxn45")
+shader_parameter/blur = 0.654
+shader_parameter/brightness = 0.2
+
+[sub_resource type="GDScript" id="GDScript_n4k53"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	$\"..\".hide()
+	$\"../../PanelContainer\".show()
+"
+
+[sub_resource type="GDScript" id="GDScript_53d6p"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	$\"../../..\".hide()
+	$\"../../../../Options2\".show()
+"
+
+[node name="Pause" type="ColorRect"]
+material = SubResource("ShaderMaterial_3ukqf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.85098)
+script = ExtResource("2_ows1f")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Options2" parent="CenterContainer" instance=ExtResource("3_5umao")]
+visible = false
+layout_mode = 2
+
+[node name="Back" type="Button" parent="CenterContainer/Options2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = 172.0
+offset_right = 21.0
+offset_bottom = 203.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"
+script = SubResource("GDScript_n4k53")
+
+[node name="Label" type="Label" parent="CenterContainer/Options2"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -204.0
+offset_right = 37.0
+offset_bottom = -176.0
+theme_override_font_sizes/font_size = 20
+text = "Options"
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(512, 256)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Pause
+"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Resume"
+
+[node name="Options" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Options"
+script = SubResource("GDScript_53d6p")
+
+[node name="Main Menu" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Main Menu
+"
+
+[node name="Quit" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Quit
+"
+
+[connection signal="pressed" from="CenterContainer/Options2/Back" to="CenterContainer/Options2/Back" method="_on_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Options" to="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Options" method="_on_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

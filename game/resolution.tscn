@@ -1,0 +1,193 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmk5qii2hrvrv"]
+
+[ext_resource type="Script" path="res://game/Options_Settings.gd" id="1_lb125"]
+
+[sub_resource type="GDScript" id="GDScript_ebadu"]
+script/source = "extends CheckBox
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	Utilities.speed1 = 0
+	Utilities.speed2 = 1
+	$\"../Deafult\".button_pressed = false
+	$\"../Instant\".button_pressed = false
+"
+
+[sub_resource type="GDScript" id="GDScript_d66jm"]
+script/source = "extends CheckBox
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	Utilities.speed1 = 2
+	Utilities.speed2 = 3
+	$\"../Fast\".button_pressed = false
+	$\"../Instant\".button_pressed = false
+"
+
+[sub_resource type="GDScript" id="GDScript_8cxb8"]
+script/source = "extends CheckBox
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	Utilities.speed1 = 0
+	Utilities.speed2 = 0
+	$\"../Fast\".button_pressed = false
+	$\"../Deafult\".button_pressed = false
+"
+
+[sub_resource type="GDScript" id="GDScript_abcs3"]
+script/source = "extends HSlider
+
+@export
+var bus_name: String
+var bus_index: int
+
+func _ready():
+	bus_index = AudioServer.get_bus_index(bus_name)
+	value_changed.connect(_on_value_changed)
+	
+	value = db_to_linear(
+		AudioServer.get_bus_volume_db(bus_index)
+	)
+
+func  _on_value_changed(value: float):
+	AudioServer.set_bus_volume_db(
+		bus_index,
+		linear_to_db(value)
+	)
+"
+
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 430)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -150.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="Options_Settings" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+script = ExtResource("1_lb125")
+
+[node name="FullScreen_CheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+text = "FullScreen: "
+
+[node name="Res_OptionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+text = "Animation speed:"
+
+[node name="Fast" type="CheckBox" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+keep_pressed_outside = true
+text = "Fast"
+script = SubResource("GDScript_ebadu")
+
+[node name="Deafult" type="CheckBox" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+button_pressed = true
+keep_pressed_outside = true
+text = "Deafult"
+script = SubResource("GDScript_d66jm")
+
+[node name="Instant" type="CheckBox" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+keep_pressed_outside = true
+text = "Instant"
+script = SubResource("GDScript_8cxb8")
+
+[node name="MasterLabel" type="Label" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Master:"
+
+[node name="Master" type="HSlider" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+script = SubResource("GDScript_abcs3")
+bus_name = "Master"
+
+[node name="MasterLabel2" type="Label" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Music:"
+
+[node name="Music" type="HSlider" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+script = SubResource("GDScript_abcs3")
+bus_name = "music"
+
+[node name="MasterLabel3" type="Label" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Sfx:"
+
+[node name="Sfx" type="HSlider" parent="PanelContainer/HBoxContainer/Options_Settings"]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+script = SubResource("GDScript_abcs3")
+bus_name = "sfx"
+
+[connection signal="toggled" from="PanelContainer/HBoxContainer/Options_Settings/FullScreen_CheckBox" to="PanelContainer/HBoxContainer/Options_Settings" method="_on_full_screen_check_box_toggled"]
+[connection signal="item_selected" from="PanelContainer/HBoxContainer/Options_Settings/Res_OptionButton" to="PanelContainer/HBoxContainer/Options_Settings" method="_on_option_button_item_selected"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Options_Settings/Fast" to="PanelContainer/HBoxContainer/Options_Settings/Fast" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Options_Settings/Deafult" to="PanelContainer/HBoxContainer/Options_Settings/Deafult" method="_on_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Options_Settings/Instant" to="PanelContainer/HBoxContainer/Options_Settings/Instant" method="_on_pressed"]

@@ -1,0 +1,128 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpajh0vs6iutv"]
+
+[ext_resource type="Shader" path="res://game/Blur.gdshader" id="1_05gsk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uvj4u"]
+shader = ExtResource("1_05gsk")
+shader_parameter/blur = 0.624
+shader_parameter/brightness = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ortqg"]
+shader = ExtResource("1_05gsk")
+shader_parameter/blur = 0.825
+shader_parameter/brightness = 0.2
+
+[sub_resource type="GDScript" id="GDScript_gu48t"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	get_tree().reload_current_scene()
+	
+	Utilities.MONEY = 200
+	Utilities.SCORE = 0
+	
+	Utilities.symbols.clear()
+	Utilities.symbols.append(preload(\"res://graphics/symbols/bell.png\"))
+	Utilities.symbols.append(preload(\"res://graphics/symbols/coin.png\"))
+	Utilities.symbols.append(preload(\"res://graphics/symbols/grape.png\"))
+"
+
+[sub_resource type="GDScript" id="GDScript_xxj1v"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	Utilities.NAME = $\"../LineEdit\".text
+	Game.saveScore()
+	await Game.loadScore()
+	Game.loadPosition()
+	get_tree().change_scene_to_file(\"res://game/LeaderBoard.tscn\")
+"
+
+[node name="ColorRect" type="ColorRect"]
+self_modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_uvj4u")
+offset_right = 1152.0
+offset_bottom = 647.0
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+material = SubResource("ShaderMaterial_ortqg")
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 646.0
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(512, 128)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+text = "Game over
+"
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Your score: "
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+placeholder_text = "Input your name: "
+max_length = 20
+clear_button_enabled = true
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TryAgain" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Try Again"
+script = SubResource("GDScript_gu48t")
+
+[node name="Submit" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Submit
+"
+script = SubResource("GDScript_xxj1v")
+
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TryAgain" to="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TryAgain" method="_on_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Submit" to="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Submit" method="_on_pressed"]

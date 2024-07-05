@@ -1,0 +1,1072 @@
+[gd_scene load_steps=43 format=3 uid="uid://cebtanqkaktn7"]
+
+[ext_resource type="Script" path="res://game/Reel.gd" id="1_k0kjj"]
+[ext_resource type="Texture2D" uid="uid://co77sxa85x1wu" path="res://graphics/scenes/beb.png" id="2_4tvcs"]
+[ext_resource type="Script" path="res://game/Control.gd" id="2_e5dfr"]
+[ext_resource type="Texture2D" uid="uid://gar1yvibwvta" path="res://graphics/scenes/bg.png" id="2_n6ge2"]
+[ext_resource type="Script" path="res://game/Control3.gd" id="4_refnv"]
+[ext_resource type="Script" path="res://game/Control2.gd" id="4_sxdms"]
+[ext_resource type="Texture2D" uid="uid://dedmesxiio5rh" path="res://graphics/scenes/machine2 — kopia.png" id="7_itfnb"]
+[ext_resource type="Script" path="res://game/Play_bt.gd" id="8_vxmhv"]
+[ext_resource type="PackedScene" uid="uid://fge1a4hkrtuw" path="res://game/Pause.tscn" id="9_knnqi"]
+[ext_resource type="Texture2D" uid="uid://ocirdxajo0a3" path="res://graphics/scenes/zakładka.png" id="9_pffwr"]
+[ext_resource type="PackedScene" uid="uid://dpajh0vs6iutv" path="res://game/GameOver.tscn" id="10_4uv7b"]
+[ext_resource type="Script" path="res://game/Node.gd" id="10_80spu"]
+[ext_resource type="Theme" uid="uid://svrcfvhoupk1" path="res://game/MainMenu.tres" id="11_gf21y"]
+[ext_resource type="Texture2D" uid="uid://bmvusqwroynxk" path="res://graphics/symbols/grape.png" id="12_jrbxr"]
+[ext_resource type="Texture2D" uid="uid://caf0qp6afjlm1" path="res://graphics/symbols/bell.png" id="12_qaids"]
+[ext_resource type="Texture2D" uid="uid://d13frgdf6xoyv" path="res://graphics/symbols/coin.png" id="13_oaprq"]
+[ext_resource type="Texture2D" uid="uid://hpxng1pb6pb7" path="res://graphics/symbols/lemon.png" id="14_av15m"]
+[ext_resource type="Texture2D" uid="uid://ct30cvcgbshh1" path="res://graphics/symbols/lips.png" id="15_cvw87"]
+[ext_resource type="Texture2D" uid="uid://c5v6qsgt1i4cr" path="res://graphics/symbols/melon.png" id="16_xq6m4"]
+[ext_resource type="Texture2D" uid="uid://1qxk535i4ybh" path="res://graphics/symbols/orange.png" id="17_ky2d6"]
+[ext_resource type="AudioStream" uid="uid://bt56ngs2pos88" path="res://music/intrigue-fun-21661.ogg" id="21_7yjj2"]
+[ext_resource type="AudioStream" uid="uid://bw3rp5wo54jqt" path="res://music/spinning-reel-27903.mp3" id="21_wfrff"]
+[ext_resource type="AudioStream" uid="uid://kjrpsopnedls" path="res://music/coin-donation-2-180438.mp3" id="22_6agwx"]
+[ext_resource type="AudioStream" uid="uid://dtvnq7j64u5mn" path="res://music/mixkit-magical-coin-win-1936.wav" id="23_gw8wv"]
+
+[sub_resource type="GDScript" id="GDScript_io6hr"]
+script/source = "extends Button
+func _on_pressed():
+	if Utilities.MONEY>0:
+		Utilities.bet += Utilities.MONEY
+		Utilities.MONEY -= Utilities.MONEY
+		
+		$\"../../Coin\".play()
+	else:
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+		
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+"
+
+[sub_resource type="GDScript" id="GDScript_atbeq"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+func _on_pressed():
+	if Utilities.MONEY-10>=0:
+		Utilities.MONEY -= 10
+		Utilities.bet += 10
+		$\"../../Coin\".play()
+	else:
+
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+
+		
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+"
+
+[sub_resource type="GDScript" id="GDScript_okv3t"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func _on_pressed():
+	if Utilities.MONEY-50>=0:
+		Utilities.MONEY -= 50
+		Utilities.bet += 50
+		$\"../../Coin\".play()
+	else:
+		print(\"You don't have enough money.\")
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+"
+
+[sub_resource type="GDScript" id="GDScript_u3c3y"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+
+
+func _on_pressed():
+	if Utilities.MONEY-100>=0:
+		Utilities.MONEY -= 100
+		Utilities.bet += 100
+		$\"../../Coin\".play()
+	else:
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+"
+
+[sub_resource type="GDScript" id="GDScript_ulfva"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _on_pressed():
+	if Utilities.MONEY-500>=0:
+		Utilities.MONEY -= 500
+		Utilities.bet += 500
+		$\"../../Coin\".play()
+	else:
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+		
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+"
+
+[sub_resource type="GDScript" id="GDScript_tsu1t"]
+script/source = "extends Button
+
+func _on_pressed():
+	if Utilities.MONEY-5000>=0:
+		Utilities.MONEY -= 5000
+		Utilities.bet += 5000
+		$\"../../Coin\".play()
+	else:
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+		
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+"
+
+[sub_resource type="GDScript" id="GDScript_w0ult"]
+script/source = "extends Button
+
+
+func _on_pressed():
+	if Utilities.MONEY>0:
+		Utilities.bet += round(Utilities.MONEY/2)
+		Utilities.MONEY -= round(Utilities.MONEY/2)
+		
+		$\"../../Coin\".play()
+	else:
+		$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+		get_tree().create_timer(2).timeout.connect(change_color_w)
+		
+func change_color_w():
+	$\"../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+		
+func _process(delta):
+	var r1 = $\"../../Control\".is_animation_playing
+	var r2 = $\"../../Control2\".is_animation_playing
+	var r3 = $\"../../Control3\".is_animation_playing
+	if r1 == false and r2 == false and r3 == false:
+		self.disabled = false
+	else:
+		self.disabled = true
+	# Przykładowa liczba do podziału
+"
+
+[sub_resource type="GDScript" id="GDScript_cfgke"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"$ : \" + str(Utilities.MONEY)
+"
+
+[sub_resource type="GDScript" id="GDScript_qj3ya"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"SCORE: \" + str(Utilities.SCORE)
+"
+
+[sub_resource type="GDScript" id="GDScript_7bpwf"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"BET: \" + str(Utilities.bet)
+"
+
+[sub_resource type="GDScript" id="GDScript_fqnra"]
+script/source = "extends Button
+var active = false
+
+
+
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"bell.png\"])
+func _ready():
+	active = true
+
+func update_display():
+	if active:
+		$\"../BellLabel\".set_text(\"Active: Yes\\n\"+line_2)
+	else : 
+		$\"../BellLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+
+func _on_pressed():
+	if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/bell.png\"))
+			$\".\".text = \"Add\"
+			active = false
+	elif $\".\".text == \"Add\":
+		Utilities.symbols.append(preload(\"res://graphics/symbols/bell.png\"))
+		$\".\".text = \"Undo\"
+		active = true
+	else:
+		print(\"za mało symboli\", len(Utilities.symbols))
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_i76qg"]
+script/source = "extends Button
+var active = true
+
+
+
+
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"grape.png\"])
+func _ready():
+	pass
+
+func update_display():
+	if active:
+		$\"../GrapeLabel\".set_text(\"Active: Yes\\n\"+line_2)
+	else : 
+		$\"../GrapeLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+
+func _on_pressed():
+	if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/grape.png\"))
+			$\".\".text = \"Add\"
+			active = false
+	elif $\".\".text == \"Add\":
+		Utilities.symbols.append(preload(\"res://graphics/symbols/grape.png\"))
+		$\".\".text = \"Undo\"
+		active = true
+	else:
+		print(\"za mało symboli\", len(Utilities.symbols))
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_thnf2"]
+script/source = "extends Button
+var active = true
+
+
+
+
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"coin.png\"])
+func _ready():
+	pass
+
+func update_display():
+	if active:
+		$\"../CoinLabel\".set_text(\"Active: Yes\\n\"+line_2)
+	else : 
+		$\"../CoinLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+
+func _on_pressed():
+	if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/coin.png\"))
+			$\".\".text = \"Add\"
+			active = false
+	elif $\".\".text == \"Add\":
+		Utilities.symbols.append(preload(\"res://graphics/symbols/coin.png\"))
+		$\".\".text = \"Undo\"
+		active = true
+	else:
+		print(\"za mało symboli\", len(Utilities.symbols))
+	
+"
+
+[sub_resource type="GDScript" id="GDScript_un4jk"]
+script/source = "extends Button
+
+
+var bought = false
+var active = false
+
+var cost = 200
+
+
+var line_1 = \"Cost: \" + str(cost)
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"lemon.png\"])
+func _ready():
+	pass
+
+func update_display():
+	if !bought:
+		$\"../LemonLabel\".set_text(line_1+\"\\n\"+line_2 )
+	else:
+		if active:
+			$\"../LemonLabel\".set_text(\"Active: Yes\\n\"+line_2)
+		else : 
+			$\"../LemonLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+
+func change_color_w():
+	$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+
+func _on_pressed():
+	if !bought :
+		if Utilities.MONEY > cost:
+			Utilities.MONEY -= cost
+			Utilities.symbols.append(preload(\"res://graphics/symbols/lemon.png\"))
+			$\".\".text = \"Undo\"
+			bought = true
+			active = true
+		else:
+			$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+			get_tree().create_timer(2).timeout.connect(change_color_w)
+	else :
+		if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/lemon.png\"))
+			$\".\".text = \"Add\"
+			active = false
+		elif $\".\".text == \"Add\":
+			Utilities.symbols.append(preload(\"res://graphics/symbols/lemon.png\"))
+			$\".\".text = \"Undo\"
+			active = true
+		else:
+			print(\"za mało symboli\", len(Utilities.symbols))
+
+
+"
+
+[sub_resource type="GDScript" id="GDScript_r61jg"]
+script/source = "extends Button
+
+
+var bought = false
+var active = false
+
+var cost = 700
+
+
+var line_1 = \"Cost: \" + str(cost)
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"lips.png\"])
+func _ready():
+	pass
+
+func update_display():
+	if !bought:
+		$\"../LipsLabel\".set_text(line_1+\"\\n\"+line_2 )
+	else:
+		if active:
+			$\"../LipsLabel\".set_text(\"Active: Yes\\n\"+line_2)
+		else : 
+			$\"../LipsLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+	
+func change_color_w():
+	$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+func _on_pressed():
+	if !bought :
+		if Utilities.MONEY > cost:
+			Utilities.MONEY -= cost
+			Utilities.symbols.append(preload(\"res://graphics/symbols/lips.png\"))
+			$\".\".text = \"Undo\"
+			bought = true
+			active = true
+		else:
+			$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+			get_tree().create_timer(2).timeout.connect(change_color_w)
+	else :
+		if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/lips.png\"))
+			$\".\".text = \"Add\"
+			active = false
+		elif $\".\".text == \"Add\":
+			Utilities.symbols.append(preload(\"res://graphics/symbols/lips.png\"))
+			$\".\".text = \"Undo\"
+			active = true
+		else:
+			print(\"za mało symboli\", len(Utilities.symbols))
+
+
+"
+
+[sub_resource type="GDScript" id="GDScript_j7gsa"]
+script/source = "extends Button
+
+
+var bought = false
+var active = false
+
+var cost = 1500
+
+
+var line_1 = \"Cost: \" + str(cost)
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"melon.png\"])
+func _ready():
+	pass
+
+func update_display():
+	if !bought:
+		$\"../MelonLabel\".set_text(line_1+\"\\n\"+line_2 )
+	else:
+		if active:
+			$\"../MelonLabel\".set_text(\"Active: Yes\\n\"+line_2)
+		else : 
+			$\"../MelonLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+	
+func change_color_w():
+	$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))
+	
+func _on_pressed():
+	if !bought :
+		if Utilities.MONEY > cost:
+			Utilities.MONEY -= cost
+			Utilities.symbols.append(preload(\"res://graphics/symbols/melon.png\"))
+			$\".\".text = \"Undo\"
+			bought = true
+			active = true
+		else:
+			$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+			get_tree().create_timer(2).timeout.connect(change_color_w)
+	else :
+		if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/melon.png\"))
+			$\".\".text = \"Add\"
+			active = false
+		elif $\".\".text == \"Add\":
+			Utilities.symbols.append(preload(\"res://graphics/symbols/melon.png\"))
+			$\".\".text = \"Undo\"
+			active = true
+		else:
+			print(\"za mało symboli\", len(Utilities.symbols))
+
+"
+
+[sub_resource type="GDScript" id="GDScript_m1hn3"]
+script/source = "extends Button
+
+
+var bought = false
+var active = false
+
+var cost = 2000
+
+
+var line_1 = \"Cost: \" + str(cost)
+var line_2 = \"Win multi: \" + str(SymbolData.symbolMultipliers[\"orange.png\"])
+func _ready():
+	pass
+
+func update_display():
+	if !bought:
+		$\"../OrangeLabel\".set_text(line_1+\"\\n\"+line_2 )
+	else:
+		if active:
+			$\"../OrangeLabel\".set_text(\"Active: Yes\\n\"+line_2)
+		else : 
+			$\"../OrangeLabel\".set_text(\"Active: No\\n\"+line_2)
+			
+func _process(delta):
+	update_display()
+	
+func change_color_w():
+	$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 1, 1, 1))	
+
+func _on_pressed():
+	if !bought :
+		if Utilities.MONEY > cost:
+			Utilities.MONEY -= cost
+			Utilities.symbols.append(preload(\"res://graphics/symbols/orange.png\"))
+			$\".\".text = \"Undo\"
+			bought = true
+			active = true
+		else:
+			$\"../../../Money\".set(\"theme_override_colors/font_color\", Color(1, 0, 0, 1))
+			get_tree().create_timer(2).timeout.connect(change_color_w)
+	else :
+		if $\".\".text == \"Undo\" and len(Utilities.symbols) > 3:
+			Utilities.symbols.erase(preload(\"res://graphics/symbols/orange.png\"))
+			$\".\".text = \"Add\"
+			active = false
+		elif $\".\".text == \"Add\":
+			Utilities.symbols.append(preload(\"res://graphics/symbols/orange.png\"))
+			$\".\".text = \"Undo\"
+			active = true
+		else:
+			print(\"za mało symboli\", len(Utilities.symbols))
+"
+
+[sub_resource type="GDScript" id="GDScript_ymncb"]
+script/source = "extends Label
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	Utilities.diff = 1+(len(Utilities.symbols)-3)
+	self.set_text(\"Active symbols: \" + str(len(Utilities.symbols))+\"\\n\"+
+	\"Current dificulty multiplier: \" + str(Utilities.diff))
+"
+
+[node name="Reel" type="Node2D"]
+script = ExtResource("1_k0kjj")
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(1.00699, 1.09831)
+texture = ExtResource("2_n6ge2")
+
+[node name="Beb" type="Sprite2D" parent="."]
+position = Vector2(596, 300)
+scale = Vector2(0.211549, 0.7034)
+texture = ExtResource("2_4tvcs")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 416.0
+offset_top = 232.0
+offset_right = 1136.0
+offset_bottom = 952.0
+scale = Vector2(0.1, 0.1)
+script = ExtResource("2_e5dfr")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 552.0
+offset_top = 232.0
+offset_right = 1272.0
+offset_bottom = 952.0
+scale = Vector2(0.1, 0.1)
+script = ExtResource("4_refnv")
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 688.0
+offset_top = 232.0
+offset_right = 1408.0
+offset_bottom = 952.0
+scale = Vector2(0.1, 0.1)
+script = ExtResource("4_sxdms")
+
+[node name="Machine2—Kopia" type="Sprite2D" parent="."]
+position = Vector2(592, 256)
+texture = ExtResource("7_itfnb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Wining" type="Label" parent="CanvasLayer"]
+offset_left = 520.0
+offset_top = 373.0
+offset_right = 684.0
+offset_bottom = 396.0
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Max" type="Button" parent="CanvasLayer"]
+offset_left = 408.0
+offset_top = 432.0
+offset_right = 449.0
+offset_bottom = 463.0
+text = "Max"
+script = SubResource("GDScript_io6hr")
+
+[node name="10$" type="Button" parent="CanvasLayer"]
+offset_left = 456.0
+offset_top = 440.0
+offset_right = 504.0
+offset_bottom = 488.0
+text = "10 $"
+script = SubResource("GDScript_atbeq")
+
+[node name="50$" type="Button" parent="CanvasLayer"]
+offset_left = 512.0
+offset_top = 440.0
+offset_right = 568.0
+offset_bottom = 488.0
+text = "50 $"
+script = SubResource("GDScript_okv3t")
+
+[node name="100$" type="Button" parent="CanvasLayer"]
+offset_left = 576.0
+offset_top = 440.0
+offset_right = 633.0
+offset_bottom = 488.0
+text = "100 $"
+script = SubResource("GDScript_u3c3y")
+
+[node name="500$" type="Button" parent="CanvasLayer"]
+offset_left = 640.0
+offset_top = 440.0
+offset_right = 696.0
+offset_bottom = 488.0
+text = "500 $"
+script = SubResource("GDScript_ulfva")
+
+[node name="5k$" type="Button" parent="CanvasLayer"]
+offset_left = 704.0
+offset_top = 440.0
+offset_right = 760.0
+offset_bottom = 488.0
+text = "5k $"
+script = SubResource("GDScript_tsu1t")
+
+[node name="1_2" type="Button" parent="CanvasLayer"]
+offset_left = 408.0
+offset_top = 464.0
+offset_right = 449.0
+offset_bottom = 495.0
+text = "1/2"
+script = SubResource("GDScript_w0ult")
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 768.0
+offset_top = 440.0
+offset_right = 824.0
+offset_bottom = 488.0
+text = "Spin
+"
+script = ExtResource("8_vxmhv")
+
+[node name="Money" type="Label" parent="CanvasLayer"]
+offset_left = 542.0
+offset_top = 13.0
+offset_right = 582.0
+offset_bottom = 39.0
+text = "$:
+"
+script = SubResource("GDScript_cfgke")
+
+[node name="Score" type="Label" parent="CanvasLayer"]
+offset_left = 386.0
+offset_top = 12.0
+offset_right = 490.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 17
+text = "Score:"
+script = SubResource("GDScript_qj3ya")
+
+[node name="Bet" type="Label" parent="CanvasLayer"]
+offset_left = 673.0
+offset_top = 14.0
+offset_right = 737.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Bet: "
+script = SubResource("GDScript_7bpwf")
+
+[node name="Node" type="Node" parent="CanvasLayer"]
+script = ExtResource("10_80spu")
+
+[node name="Zakładka" type="Sprite2D" parent="CanvasLayer/Node"]
+position = Vector2(1344, 334.55)
+scale = Vector2(0.9, 0.947567)
+texture = ExtResource("9_pffwr")
+
+[node name="Button2" type="Button" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -244.444
+offset_top = -185.556
+offset_right = -149.444
+offset_bottom = -159.556
+rotation = -1.5708
+theme = ExtResource("11_gf21y")
+theme_override_font_sizes/font_size = 12
+text = "Shop"
+
+[node name="Button" type="Button" parent="CanvasLayer/Node/Zakładka"]
+visible = false
+modulate = Color(0.643137, 0.380392, 0.278431, 0)
+offset_left = -1498.0
+offset_top = -354.0
+offset_right = -212.0
+offset_bottom = 333.0
+
+[node name="Bell" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-160, -293.963)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("12_qaids")
+
+[node name="BellLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -124.444
+offset_top = -319.291
+offset_right = -44.4445
+offset_bottom = -270.291
+text = "Cost:
+Win multi:"
+
+[node name="BellButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = -302.406
+offset_right = -3353.87
+offset_bottom = -514.718
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Undo"
+script = SubResource("GDScript_fqnra")
+
+[node name="HSeparator8" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -213.333
+offset_top = -260.193
+offset_right = 159.667
+offset_bottom = -256.193
+
+[node name="Grape" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-163.484, -226.62)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("12_jrbxr")
+
+[node name="GrapeLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -124.444
+offset_top = -251.75
+offset_right = -44.4445
+offset_bottom = -202.75
+text = "Cost:
+Win multi:"
+
+[node name="GrapeButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = -234.865
+offset_right = -3353.87
+offset_bottom = -447.177
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Undo"
+script = SubResource("GDScript_i76qg")
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -204.444
+offset_top = -192.651
+offset_right = 168.556
+offset_bottom = -188.651
+
+[node name="Coin" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-163.484, -159.079)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("13_oaprq")
+
+[node name="CoinLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -115.556
+offset_top = -175.766
+offset_right = -35.5555
+offset_bottom = -126.766
+text = "Cost:
+Win multi:"
+
+[node name="CoinButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = -167.323
+offset_right = -3353.87
+offset_bottom = -379.635
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Undo"
+script = SubResource("GDScript_thnf2")
+
+[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -204.444
+offset_top = -125.11
+offset_right = 168.556
+offset_bottom = -121.11
+
+[node name="Lemon" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-163.484, -91.5372)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("14_av15m")
+
+[node name="LemonLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -115.556
+offset_top = -108.225
+offset_right = -35.5555
+offset_bottom = -59.2245
+text = "Cost:
+Win multi:"
+
+[node name="LemonButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = -99.7818
+offset_right = -3353.87
+offset_bottom = -312.094
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Buy"
+script = SubResource("GDScript_un4jk")
+
+[node name="HSeparator4" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -204.444
+offset_top = -57.5685
+offset_right = 168.556
+offset_bottom = -53.5685
+
+[node name="Lips" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-163.484, -23.9958)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("15_cvw87")
+
+[node name="LipsLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -115.556
+offset_top = -49.1258
+offset_right = -35.5555
+offset_bottom = -0.125793
+text = "Cost:
+Win multi:"
+
+[node name="LipsButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = -40.6831
+offset_right = -3353.87
+offset_bottom = -252.995
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Buy"
+script = SubResource("GDScript_r61jg")
+
+[node name="HSeparator5" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -204.444
+offset_top = 1.53027
+offset_right = 168.556
+offset_bottom = 5.53027
+
+[node name="Melon" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-163.484, 43.5456)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("16_xq6m4")
+
+[node name="MelonButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = 35.301
+offset_right = -3353.88
+offset_bottom = -177.011
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Buy"
+script = SubResource("GDScript_j7gsa")
+
+[node name="MelonLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -115.556
+offset_top = 18.4156
+offset_right = -35.5555
+offset_bottom = 67.4156
+text = "Cost:
+Win multi:"
+
+[node name="HSeparator6" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -204.444
+offset_top = 77.5143
+offset_right = 168.556
+offset_bottom = 81.5143
+
+[node name="Orange" type="Sprite2D" parent="CanvasLayer/Node/Zakładka"]
+position = Vector2(-163.484, 111.087)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("17_ky2d6")
+
+[node name="OrangeButton" type="Button" parent="CanvasLayer/Node/Zakładka"]
+anchors_preset = -1
+anchor_right = 2.279
+anchor_bottom = 0.296
+offset_left = 71.1111
+offset_top = 111.285
+offset_right = -3353.88
+offset_bottom = -101.027
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Buy"
+script = SubResource("GDScript_m1hn3")
+
+[node name="HSeparator7" type="HSeparator" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -204.444
+offset_top = 153.498
+offset_right = 168.556
+offset_bottom = 157.498
+
+[node name="OrangeLabel" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -115.556
+offset_top = 94.3997
+offset_right = -35.5555
+offset_bottom = 143.4
+text = "Cost:
+Win multi:"
+
+[node name="Label" type="Label" parent="CanvasLayer/Node/Zakładka"]
+offset_left = -187.0
+offset_top = 170.0
+offset_right = 142.0
+offset_bottom = 204.0
+script = SubResource("GDScript_ymncb")
+
+[node name="Pause" parent="CanvasLayer" instance=ExtResource("9_knnqi")]
+visible = false
+
+[node name="ColorRect" parent="CanvasLayer" instance=ExtResource("10_4uv7b")]
+visible = false
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_7yjj2")
+autoplay = true
+bus = &"music"
+
+[node name="Spin" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_wfrff")
+bus = &"sfx"
+
+[node name="Coin" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("22_6agwx")
+bus = &"sfx"
+
+[node name="Win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("23_gw8wv")
+bus = &"sfx"
+
+[connection signal="pressed" from="CanvasLayer/Max" to="CanvasLayer/Max" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/10$" to="CanvasLayer/10$" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/50$" to="CanvasLayer/50$" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/100$" to="CanvasLayer/100$" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/500$" to="CanvasLayer/500$" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/5k$" to="CanvasLayer/5k$" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/1_2" to="CanvasLayer/1_2" method="_on_pressed"]
+[connection signal="button_down" from="CanvasLayer/Button" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/Button" to="Control" method="_on_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/Button" to="Control2" method="_on_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/Button" to="Control3" method="_on_button_button_down"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/Button2" to="CanvasLayer/Node" method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/Button" to="CanvasLayer/Node" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/BellButton" to="CanvasLayer/Node/Zakładka/BellButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/GrapeButton" to="CanvasLayer/Node/Zakładka/GrapeButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/CoinButton" to="CanvasLayer/Node/Zakładka/CoinButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/LemonButton" to="CanvasLayer/Node/Zakładka/LemonButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/LipsButton" to="CanvasLayer/Node/Zakładka/LipsButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/MelonButton" to="CanvasLayer/Node/Zakładka/MelonButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Node/Zakładka/OrangeButton" to="CanvasLayer/Node/Zakładka/OrangeButton" method="_on_pressed"]

@@ -1,0 +1,229 @@
+[gd_scene load_steps=11 format=3 uid="uid://cypj62p6bj5yd"]
+
+[ext_resource type="Script" path="res://game/MainMenu.gd" id="1_ewwyo"]
+[ext_resource type="Texture2D" uid="uid://gar1yvibwvta" path="res://graphics/scenes/bg.png" id="2_x58eh"]
+[ext_resource type="PackedScene" uid="uid://bmk5qii2hrvrv" path="res://game/resolution.tscn" id="3_m24sq"]
+[ext_resource type="Theme" uid="uid://svrcfvhoupk1" path="res://game/MainMenu.tres" id="3_r8d2e"]
+[ext_resource type="Script" path="res://game/Options.gd" id="4_qbmxh"]
+[ext_resource type="AudioStream" uid="uid://c1727ij5jea7c" path="res://music/former-102685.ogg" id="6_xiolo"]
+
+[sub_resource type="GDScript" id="GDScript_2rcy5"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	$\"..\".hide()
+	$\".\".hide()
+	$\"../Label\".hide()
+	$\"../../Play\".show()
+	$\"../../Options\".show()
+	$\"../../Quit\".show()
+	$\"../../Lead\".show()
+	$\"../../Credits\".show()
+"
+
+[sub_resource type="GDScript" id="GDScript_h8lwh"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	await Game.loadFullScore()
+	get_tree().change_scene_to_file(\"res://game/Leadeboard.tscn\")
+"
+
+[sub_resource type="GDScript" id="GDScript_0vnyp"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	pass # Replace with function body.
+	$\".\".hide()
+	$\"../Options\".hide()
+	$\"../Lead\".hide()
+	$\"../Play\".hide()
+	$\"../Quit\".hide()
+	$\"../Label\".show()
+	$\"../Back2\".show()
+"
+
+[sub_resource type="GDScript" id="GDScript_2cyeh"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_pressed():
+	$\"../Credits\".show()
+	$\"../Options\".show()
+	$\"../Lead\".show()
+	$\"../Play\".show()
+	$\"../Quit\".show()
+	$\"../Label\".hide()
+	$\".\".hide()
+"
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_ewwyo")
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(1.00699, 1.0983)
+texture = ExtResource("2_x58eh")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 264.0
+offset_top = 64.0
+offset_right = 885.0
+offset_bottom = 201.0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 100
+text = "Slot Machine"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_right = 1153.0
+offset_bottom = 649.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Options2" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_m24sq")]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Options2"]
+visible = false
+layout_mode = 2
+offset_left = -40.0
+offset_top = -196.0
+offset_right = 37.0
+offset_bottom = -168.0
+theme_override_font_sizes/font_size = 20
+text = "Options"
+
+[node name="Back" type="Button" parent="HBoxContainer/VBoxContainer/Options2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = 172.0
+offset_right = 21.0
+offset_bottom = 203.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+script = SubResource("GDScript_2rcy5")
+
+[node name="Play" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 1.15
+theme = ExtResource("3_r8d2e")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Play"
+
+[node name="Lead" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_r8d2e")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Leaderaboard"
+script = SubResource("GDScript_h8lwh")
+
+[node name="Options" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_r8d2e")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Options
+"
+script = ExtResource("4_qbmxh")
+
+[node name="Credits" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_r8d2e")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Credits"
+script = SubResource("GDScript_0vnyp")
+
+[node name="Quit" type="Button" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_r8d2e")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Quit"
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Game by Mateusz Ruchała
+Sounds:
+\"Spinning Reel\" by Pixabay - sound of machine rotation
+\"Magical Coin Win\" by Mixkit - sound of winning
+\"Coin Donation 2\" by Floraphonic - sound indicating the addition of money to the betting pool
+\"Intrigue Fun\" by Musictown - main menu music
+\"Former\" by ComaStudio - in-game music"
+horizontal_alignment = 1
+
+[node name="Back2" type="Button" parent="HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("3_r8d2e")
+text = "Back"
+script = SubResource("GDScript_2cyeh")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_xiolo")
+autoplay = true
+bus = &"music"
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Options2/Back" to="HBoxContainer/VBoxContainer/Options2/Back" method="_on_pressed"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/Play" to="." method="_on_play_button_down"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Lead" to="HBoxContainer/VBoxContainer/Lead" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Options" to="HBoxContainer/VBoxContainer/Options" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Credits" to="HBoxContainer/VBoxContainer/Credits" method="_on_pressed"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_button_down"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Back2" to="HBoxContainer/VBoxContainer/Back2" method="_on_pressed"]
